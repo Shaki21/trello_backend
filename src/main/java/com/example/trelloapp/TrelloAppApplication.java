@@ -1,4 +1,4 @@
-package com.example.trelloapp.trelloapp;
+package com.example.trelloapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

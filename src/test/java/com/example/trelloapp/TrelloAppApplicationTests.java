@@ -1,4 +1,4 @@
-package com.example.trelloapp.trelloapp;
+package com.example.trelloapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
