@@ -1,16 +1,28 @@
 package com.example.trelloapp.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.HashSet;
 import java.util.Set;
 
+
+@Setter
+@Getter
 @Entity
+@Table(name = "users")
+@Data
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
-    private String password;  // U stvarnoj aplikaciji, lozinke treba da budu heširane.
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -26,52 +38,25 @@ public class User {
     )
     private Set<Board> accessibleBoards = new HashSet<>();
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public Set<Board> getBoards() {
-        return boards;
-    }
-
-    public Set<Board> getAccessibleBoards() {
-        return accessibleBoards;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = PASSWORD_ENCODER.encode(password);
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    @JsonIgnore
+    public boolean isUser() {
+        return Role.USER.equals(this.role);
     }
 
-    public void setBoards(Set<Board> boards) {
-        this.boards = boards;
+    @JsonIgnore
+    public boolean isManager() {
+        return Role.MANAGER.equals(this.role);
     }
 
-    public void setAccessibleBoards(Set<Board> accessibleBoards) {
-        this.accessibleBoards = accessibleBoards;
+    @JsonIgnore
+    public boolean isAdmin() {
+        return Role.ADMIN.equals(this.role);
     }
+
 }
