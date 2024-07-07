@@ -1,4 +1,5 @@
 package com.example.trelloapp.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -41,6 +42,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = PASSWORD_ENCODER.encode(password);
+    }
+
+    @JsonIgnore
+    public boolean isUser() {
+        return Role.USER.equals(this.role);
+    }
+
+    @JsonIgnore
+    public boolean isManager() {
+        return Role.MANAGER.equals(this.role);
+    }
+
+    @JsonIgnore
+    public boolean isAdmin() {
+        return Role.ADMIN.equals(this.role);
     }
 
 }
